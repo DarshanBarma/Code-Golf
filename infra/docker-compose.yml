@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  judge0:
+    image: judge0/judge0:latest
+    container_name: judge0
+    restart: unless-stopped
+    ports:
+      - "2358:2358"
+    environment:
+      # Use SQLite for local dev
+      - JUDGE0_DATABASE_URL=sqlite:///judge0.db
+      - REDIS_URL=redis://redis:6379
+      - JUDGE0_ENABLE_SECURITY=true
+      - JUDGE0_ALLOW_COMPILER_CHANGE=true
+      - JUDGE0_ALLOW_INSECURE_COMPILER_ARGS=false
+    volumes:
+      - judge0_data:/judge0/data
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:alpine
+    container_name: judge0-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+volumes:
+  judge0_data:
