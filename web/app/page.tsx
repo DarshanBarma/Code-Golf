@@ -1,6 +1,5 @@
 
-
-export default function Home() {
+export default function Home() { 
   return (
     <>
       <div className="flex-1">
