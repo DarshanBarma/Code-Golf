@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css?family=Gentium%20Plus:700|Gentium%20Plus:400');
+@import "tailwindcss";
 
 :root[data-theme="light"] {
   --text-50: #f5f1ef;
