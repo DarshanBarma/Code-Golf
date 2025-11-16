@@ -1,0 +1,171 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css?family=Gentium%20Plus:700|Gentium%20Plus:400');
+
+:root[data-theme="light"] {
+  --text-50: #f5f1ef;
+  --text-100: #ebe2e0;
+  --text-200: #d7c6c1;
+  --text-300: #c3a9a2;
+  --text-400: #af8c83;
+  --text-500: #9c7063;
+  --text-600: #7c5950;
+  --text-700: #5d433c;
+  --text-800: #3e2d28;
+  --text-900: #1f1614;
+  --text-950: #100b0a;
+
+  --background-50: #f5f1ef;
+  --background-100: #ebe4e0;
+  --background-200: #d7c8c1;
+  --background-300: #c3ada2;
+  --background-400: #af9283;
+  --background-500: #9c7663;
+  --background-600: #7c5f50;
+  --background-700: #5d473c;
+  --background-800: #3e2f28;
+  --background-900: #1f1814;
+  --background-950: #100c0a;
+
+  --primary-50: #f5f1ef;
+  --primary-100: #ebe3e0;
+  --primary-200: #d8c8c0;
+  --primary-300: #c4aca1;
+  --primary-400: #b09082;
+  --primary-500: #9d7562;
+  --primary-600: #7d5d4f;
+  --primary-700: #5e463b;
+  --primary-800: #3f2f27;
+  --primary-900: #1f1714;
+  --primary-950: #100c0a;
+
+  --secondary-50: #f1f5ef;
+  --secondary-100: #e2ebe0;
+  --secondary-200: #c6d8c0;
+  --secondary-300: #a9c4a1;
+  --secondary-400: #8cb082;
+  --secondary-500: #709d62;
+  --secondary-600: #597d4f;
+  --secondary-700: #435e3b;
+  --secondary-800: #2d3f27;
+  --secondary-900: #161f14;
+  --secondary-950: #0b100a;
+
+  --accent-50: #eff5f1;
+  --accent-100: #e0ebe2;
+  --accent-200: #c0d8c5;
+  --accent-300: #a1c4a9;
+  --accent-400: #82b08c;
+  --accent-500: #629d6f;
+  --accent-600: #4f7d59;
+  --accent-700: #3b5e43;
+  --accent-800: #273f2c;
+  --accent-900: #141f16;
+  --accent-950: #0a100b;
+}
+
+:root[data-theme="dark"] {
+  --text-50: #100b0a;
+  --text-100: #1f1614;
+  --text-200: #3f2c27;
+  --text-300: #5e433b;
+  --text-400: #7d594f;
+  --text-500: #9d6f62;
+  --text-600: #b08c82;
+  --text-700: #c4a9a1;
+  --text-800: #d8c5c0;
+  --text-900: #ebe2e0;
+  --text-950: #f5f1ef;
+
+  --background-50: #100c0a;
+  --background-100: #1f1814;
+  --background-200: #3e2f28;
+  --background-300: #5d473c;
+  --background-400: #7c5f50;
+  --background-500: #9c7663;
+  --background-600: #af9283;
+  --background-700: #c3ada2;
+  --background-800: #d7c8c1;
+  --background-900: #ebe4e0;
+  --background-950: #f5f1ef;
+
+  --primary-50: #100c0a;
+  --primary-100: #1f1714;
+  --primary-200: #3f2f27;
+  --primary-300: #5e463b;
+  --primary-400: #7d5d4f;
+  --primary-500: #9d7562;
+  --primary-600: #b09082;
+  --primary-700: #c4aca1;
+  --primary-800: #d8c8c0;
+  --primary-900: #ebe3e0;
+  --primary-950: #f5f1ef;
+
+  --secondary-50: #0b100a;
+  --secondary-100: #161f14;
+  --secondary-200: #2c3f27;
+  --secondary-300: #435e3b;
+  --secondary-400: #597d4f;
+  --secondary-500: #6f9d62;
+  --secondary-600: #8cb082;
+  --secondary-700: #a9c4a1;
+  --secondary-800: #c5d8c0;
+  --secondary-900: #e2ebe0;
+  --secondary-950: #f1f5ef;
+
+  --accent-50: #0a100b;
+  --accent-100: #141f16;
+  --accent-200: #273f2c;
+  --accent-300: #3b5e43;
+  --accent-400: #4f7d59;
+  --accent-500: #629d6f;
+  --accent-600: #82b08c;
+  --accent-700: #a1c4a9;
+  --accent-800: #c0d8c5;
+  --accent-900: #e0ebe2;
+  --accent-950: #eff5f1;
+}
+
+html {
+  font-size: 100%; /* 16px */
+}
+
+body {
+  background-color: var(--background-950);
+  color: var(--text-900);
+  font-family: 'Gentium Plus', serif;
+  font-weight: 400;
+}
+
+h1 {
+  font-family: 'Gentium Plus', serif;
+  font-weight: 700;
+  font-size: 4.210rem; /* 67.36px */
+}
+
+h2 {
+  font-family: 'Gentium Plus', serif;
+  font-weight: 700;
+  font-size: 3.158rem; /* 50.56px */
+}
+
+h3 {
+  font-family: 'Gentium Plus', serif;
+  font-weight: 700;
+  font-size: 2.369rem; /* 37.92px */
+}
+
+h4 {
+  font-family: 'Gentium Plus', serif;
+  font-weight: 700;
+  font-size: 1.777rem; /* 28.48px */
+}
+
+h5 {
+  font-family: 'Gentium Plus', serif;
+  font-weight: 700;
+  font-size: 1.333rem; /* 21.28px */
+}
+
+small {
+  font-size: 0.750rem; /* 12px */
+}
