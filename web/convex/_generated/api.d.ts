@@ -13,7 +13,9 @@ import type * as http from "../http.js";
 import type * as matches from "../matches.js";
 import type * as matchmaking from "../matchmaking.js";
 import type * as problems from "../problems.js";
+import type * as runCode from "../runCode.js";
 import type * as submissions from "../submissions.js";
+import type * as testCode from "../testCode.js";
 import type * as users from "../users.js";
 
 import type {
@@ -28,7 +30,9 @@ declare const fullApi: ApiFromModules<{
   matches: typeof matches;
   matchmaking: typeof matchmaking;
   problems: typeof problems;
+  runCode: typeof runCode;
   submissions: typeof submissions;
+  testCode: typeof testCode;
   users: typeof users;
 }>;
 
