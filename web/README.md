@@ -1,36 +1,142 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Code Golf - Challenge Your Coding Skills 🏌️
 
-## Getting Started
+A competitive coding platform where developers write the shortest code possible to solve programming challenges.
 
-First, run the development server:
+## 🚀 Quick Start
 
+### 1. Install Dependencies
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Set Up Convex
+```bash
+npx convex dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Set Up Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create `.env.local`:
+```env
+NEXT_PUBLIC_CONVEX_URL=https://your-project.convex.cloud
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_xxxxx
+CLERK_SECRET_KEY=sk_test_xxxxx
+```
 
-## Learn More
+### 4. Run Development Server
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Visit [http://localhost:3000](http://localhost:3000)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📁 Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+web/
+├── app/
+│   ├── components/       # Reusable UI components
+│   ├── hooks/           # Custom React hooks
+│   ├── auth/            # Authentication pages
+│   └── page.tsx         # Main dashboard
+├── convex/
+│   ├── schema.ts        # Database schema
+│   ├── users.ts         # User management
+│   ├── problems.ts      # Challenge management
+│   └── submissions.ts   # Submission tracking
+├── types/               # TypeScript type definitions
+└── middleware.ts        # Authentication middleware
+```
+
+## 🎯 Features
+
+- ✅ **User Authentication** - Clerk integration
+- ✅ **Real-time Database** - Convex backend
+- ✅ **User Stats** - Track challenges solved, scores, and rank
+- ✅ **Problem Management** - Create and manage coding challenges
+- ✅ **Submission System** - Track user submissions and scores
+- ✅ **Leaderboard** - Global and per-problem rankings
+- ✅ **Theme Toggle** - Light/Dark mode
+- ✅ **Responsive Design** - Works on all devices
+- ✅ **Type-safe** - Full TypeScript support
+
+## 📚 Documentation
+
+- [Backend Setup Guide](./BACKEND_SETUP.md) - Detailed Convex setup
+- [Project Structure](./PROJECT_STRUCTURE.md) - Architecture overview
+- [Component Usage](./PROJECT_STRUCTURE.md#component-usage) - How to use components
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Backend**: Convex
+- **Auth**: Clerk
+- **Styling**: Tailwind CSS + CSS Variables
+- **Fonts**: Geist Sans & Geist Mono
+
+## 🔧 Development
+
+### Start Convex (Terminal 1)
+```bash
+npx convex dev
+```
+
+### Start Next.js (Terminal 2)
+```bash
+npm run dev
+```
+
+## 📊 Database Schema
+
+### Users
+- Stores user profiles with Clerk integration
+- Tracks challenges solved, scores, and rankings
+
+### Problems
+- Coding challenges with tests and metadata
+- Difficulty levels and tags
+
+### Submissions
+- User code submissions with scores
+- Pass/fail status and code length
+
+### Leaderboard
+- Best scores per problem
+- Global rankings
+
+## 🎨 Theming
+
+Edit `app/globals.css` to customize colors:
+
+```css
+:root[data-theme="light"] {
+  --primary-500: #9d7562;
+  --background-50: #f5f1ef;
+  /* ... */
+}
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+## 📞 Support
+
+For detailed setup instructions, see:
+- [BACKEND_SETUP.md](./BACKEND_SETUP.md)
+- [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md)
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Check out the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for details.
+
+---
+
+Built with ❤️ using Next.js, Convex, and Clerk
+

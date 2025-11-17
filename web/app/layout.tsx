@@ -2,11 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ConvexClientProvider } from "./providers/ConvexClientProvider";
-import {
-  ClerkProvider,
-  SignedIn,
-  UserButton,
-} from '@clerk/nextjs';
+import { SignedIn, UserButton } from '@clerk/nextjs';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,22 +25,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en" data-theme="light">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-          style={{ backgroundColor: 'var(--background-100)', color: 'var(--text-900)' }}
-        >
-          <ConvexClientProvider>
-            <SignedIn>
-              <div className="fixed top-4 right-4 z-50">
-                <UserButton afterSignOutUrl="/auth" />
-              </div>
-            </SignedIn>
-            {children}
-          </ConvexClientProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en" data-theme="light">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        style={{ backgroundColor: 'var(--background-100)', color: 'var(--text-900)' }}
+      >
+        <ConvexClientProvider>
+          <SignedIn>
+            <div className="fixed top-4 right-4 z-50">
+              <UserButton afterSignOutUrl="/auth" />
+            </div>
+          </SignedIn>
+          {children}
+        </ConvexClientProvider>
+      </body>
+    </html>
   );
 }

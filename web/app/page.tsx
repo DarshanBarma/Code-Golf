@@ -3,11 +3,21 @@
 import { SignedIn, useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useQuery } from 'convex/react';
+import { api } from '@/convex/_generated/api';
+import { Header } from './components/Header';
+import { StatCard } from './components/StatCard';
+import { ChallengeCard } from './components/ChallengeCard';
+import { UserSync } from './components/UserSync';
+import { useUserStats } from './hooks/useUserStats';
+import { Difficulty } from '@/types';
 
 export default function Home() {
   const router = useRouter();
   const { isLoaded, isSignedIn } = useUser();
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState('light');
+  const userStats = useUserStats();
+  const featuredProblems = useQuery(api.problems.getFeaturedProblems, { limit: 2 });
 
   useEffect(() => {
     if (isLoaded) {
@@ -18,7 +28,7 @@ export default function Home() {
   }, [isLoaded, isSignedIn, router]);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') || 'dark';
+    const savedTheme = localStorage.getItem('theme') || 'light';
     setTheme(savedTheme);
     document.documentElement.setAttribute('data-theme', savedTheme);
   }, []);
@@ -48,67 +58,12 @@ export default function Home() {
 
   return (
     <SignedIn>
+      <UserSync />
       <div 
         className="min-h-screen"
         style={{ backgroundColor: 'var(--background-50)' }}
       >
-        {/* Header */}
-        <header 
-          className="border-b backdrop-blur-sm sticky top-0 z-40"
-          style={{ 
-            backgroundColor: 'var(--background-100)',
-            borderColor: 'var(--background-300)'
-          }}
-        >
-          <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h2 style={{ color: 'var(--primary-500)' }}>
-              Code Golf
-            </h2>
-            <div className="flex items-center gap-4">
-              {/* Theme Toggle */}
-              <button
-                onClick={toggleTheme}
-                className="w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110"
-                style={{ 
-                  backgroundColor: 'var(--background-200)',
-                  border: '2px solid var(--background-400)'
-                }}
-                aria-label="Toggle theme"
-              >
-                {theme === 'light' ? (
-                  <svg 
-                    className="w-5 h-5" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                    style={{ color: 'var(--primary-500)' }}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                  </svg>
-                ) : (
-                  <svg 
-                    className="w-5 h-5" 
-                    fill="currentColor" 
-                    viewBox="0 0 24 24"
-                    style={{ color: 'var(--primary-200)' }}
-                  >
-                    <path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z" opacity="0.3"/>
-                  </svg>
-                )}
-              </button>
-
-              <button 
-                className="px-6 py-2.5 rounded-lg transition-all hover:opacity-90 font-medium shadow-md"
-                style={{ 
-                  backgroundColor: 'var(--primary-500)',
-                  color: 'var(--background-50)'
-                }}
-              >
-                New Challenge
-              </button>
-            </div>
-          </div>
-        </header>
+        <Header theme={theme} onThemeToggle={toggleTheme} />
 
         {/* Main Content */}
         <main className="container mx-auto px-6 py-8">
@@ -133,90 +88,93 @@ export default function Home() {
             </div>
 
             {/* Stats Cards */}
-            <div 
-              className="rounded-xl p-6 shadow-lg border transition-all hover:shadow-xl"
-              style={{ 
-                backgroundColor: 'var(--background-100)',
-                borderColor: 'var(--background-300)'
-              }}
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <p style={{ color: 'var(--text-500)' }}>Challenges Solved</p>
-                  <h2 className="mt-2" style={{ color: 'var(--text-900)' }}>0</h2>
-                </div>
-                <div 
-                  className="p-4 rounded-lg"
-                  style={{ backgroundColor: 'var(--primary-500)' }}
+            <StatCard
+              title="Challenges Solved"
+              value={userStats?.challengesSolved ?? 0}
+              iconBgColor="var(--primary-500)"
+              icon={
+                <svg 
+                  className="w-8 h-8" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                  style={{ color: 'var(--background-50)' }}
                 >
-                  <svg 
-                    className="w-8 h-8" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                    style={{ color: 'var(--background-50)' }}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-              </div>
-            </div>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              }
+            />
 
-            <div 
-              className="rounded-xl p-6 shadow-lg border transition-all hover:shadow-xl"
-              style={{ 
-                backgroundColor: 'var(--background-100)',
-                borderColor: 'var(--background-300)'
-              }}
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <p style={{ color: 'var(--text-500)' }}>Total Score</p>
-                  <h2 className="mt-2" style={{ color: 'var(--text-900)' }}>0</h2>
-                </div>
-                <div 
-                  className="p-4 rounded-lg"
-                  style={{ backgroundColor: 'var(--primary-500)' }}
+            <StatCard
+              title="Total Score"
+              value={userStats?.totalScore ?? 0}
+              iconBgColor="var(--primary-500)"
+              icon={
+                <svg 
+                  className="w-8 h-8" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                  style={{ color: 'var(--background-50)' }}
                 >
-                  <svg 
-                    className="w-8 h-8" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                    style={{ color: 'var(--background-50)' }}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </div>
-              </div>
-            </div>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              }
+            />
 
-            <div 
-              className="rounded-xl p-6 shadow-lg border transition-all hover:shadow-xl"
-              style={{ 
-                backgroundColor: 'var(--background-100)',
-                borderColor: 'var(--background-300)'
-              }}
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <p style={{ color: 'var(--text-500)' }}>Global Rank</p>
-                  <h2 className="mt-2" style={{ color: 'var(--text-900)' }}>-</h2>
-                </div>
-                <div 
-                  className="p-4 rounded-lg"
-                  style={{ backgroundColor: 'var(--primary-500)' }}
+            <StatCard
+              title="Global Rank"
+              value={userStats?.globalRank ?? '-'}
+              iconBgColor="var(--primary-500)"
+              icon={
+                <svg 
+                  className="w-8 h-8" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                  style={{ color: 'var(--background-50)' }}
                 >
-                  <svg 
-                    className="w-8 h-8" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                    style={{ color: 'var(--background-50)' }}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                  </svg>
-                </div>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              }
+            />
+
+            {/* Featured Challenges Section */}
+            <div className="col-span-full mt-6">
+              <h3 
+                className="mb-6"
+                style={{ color: 'var(--text-900)' }}
+              >
+                Featured Challenges
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {featuredProblems && featuredProblems.length > 0 ? (
+                  featuredProblems.map((problem) => (
+                    <ChallengeCard
+                      key={problem._id}
+                      title={problem.title}
+                      description={problem.description}
+                      difficulty={problem.difficulty as Difficulty}
+                      languages={['JavaScript', 'Python', 'Java']}
+                      onClick={() => console.log('Navigate to problem:', problem._id)}
+                    />
+                  ))
+                ) : (
+                  <>
+                    <ChallengeCard
+                      title="FizzBuzz Mastery"
+                      description="Write the shortest FizzBuzz implementation possible."
+                      difficulty="Easy"
+                      languages={['JavaScript', 'Python']}
+                    />
+                    <ChallengeCard
+                      title="Palindrome Checker"
+                      description="Check if a string is a palindrome with minimal code."
+                      difficulty="Medium"
+                      languages={['JavaScript', 'Python']}
+                    />
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -224,4 +182,4 @@ export default function Home() {
       </div>
     </SignedIn>
   );
-}``
+}
