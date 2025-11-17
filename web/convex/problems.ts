@@ -9,6 +9,30 @@ export const getProblems = query({
   },
 });
 
+// Get random problem by difficulty
+export const getRandomProblem = query({
+  args: { difficulty: v.optional(v.string()) },
+  handler: async (ctx, args) => {
+    let problems;
+    
+    if (args.difficulty && args.difficulty !== "") {
+      problems = await ctx.db
+        .query("problems")
+        .withIndex("by_difficulty", (q) => q.eq("difficulty", args.difficulty!))
+        .collect();
+    } else {
+      problems = await ctx.db.query("problems").collect();
+    }
+    
+    if (problems.length === 0) {
+      return null;
+    }
+    
+    const randomIndex = Math.floor(Math.random() * problems.length);
+    return problems[randomIndex];
+  },
+});
+
 // Get problems by difficulty
 export const getProblemsByDifficulty = query({
   args: { difficulty: v.string() },
@@ -25,6 +49,15 @@ export const getProblem = query({
   args: { problemId: v.id("problems") },
   handler: async (ctx, args) => {
     return await ctx.db.get(args.problemId);
+  },
+});
+
+// Get problem by ID (number)
+export const getProblemById = query({
+  args: { id: v.number() },
+  handler: async (ctx, args) => {
+    const problems = await ctx.db.query("problems").collect();
+    return problems.find((p) => p.id === args.id);
   },
 });
 
@@ -53,6 +86,26 @@ export const getFeaturedProblems = query({
   args: { limit: v.optional(v.number()) },
   handler: async (ctx, args) => {
     const limit = args.limit ?? 6;
+    return await ctx.db.query("problems").take(limit);
+  },
+});
+
+// List all problems with pagination
+export const listProblems = query({
+  args: { 
+    limit: v.optional(v.number()),
+    difficulty: v.optional(v.string())
+  },
+  handler: async (ctx, args) => {
+    const limit = args.limit ?? 20;
+    
+    if (args.difficulty && args.difficulty !== "") {
+      return await ctx.db
+        .query("problems")
+        .withIndex("by_difficulty", (q) => q.eq("difficulty", args.difficulty!))
+        .take(limit);
+    }
+    
     return await ctx.db.query("problems").take(limit);
   },
 });
